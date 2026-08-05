@@ -2,7 +2,7 @@
 #define SEGMENTOCOSTA_H_INCLUDED
 
 #include <iostream>
-#include "Punto.h"
+#include "../Punto.h"
 
 class SegmentoCosta {
     private:
@@ -16,14 +16,14 @@ class SegmentoCosta {
         virtual ~SegmentoCosta(); // destructor
 
         // Get
-        Punto getInicio();
-        Punto getFin();
+        Punto getInicio() const;
+        Punto getFin() const;
 
         // Set
         void setInicio(Punto inicio);
         void setFin(Punto fin);
 
-        void operator=(SegmentoCosta s);
+        SegmentoCosta& operator=(const SegmentoCosta& s);
 };
 
 #endif // SEGMENTOCOSTA_H_INCLUDED

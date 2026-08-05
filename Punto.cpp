@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Punto.h"
+#include "../Punto.h"
 
 using namespace std;
 
@@ -21,11 +21,11 @@ Punto::~Punto() { // segun el gemini esta wea puede quedar vacia nomas pq no hay
 }
 
 // metodos Get, que lee los datos protegidos
-double Punto::getE() {
+double Punto::getE() const {
     return E;
 }
 
-double Punto::getN() {
+double Punto::getN() const {
     return N;
 }
 
@@ -38,8 +38,7 @@ void Punto::setN(double N) {
     this->N = N;
 }
 
-bool Punto::operator==(Punto p) {
-    // si la coordenada E y la N son iguales, es punto es el mismo
+bool Punto::operator==(const Punto& p) const {
     if (this->E == p.getE() && this->N == p.getN()) {
         return true;
     } else {

@@ -16,15 +16,15 @@ class Punto {
         virtual ~Punto(); //destructor
 
         // Get
-        double getE();
-        double getN();
+        double getE() const;
+        double getN() const;
 
         // Set
         void setE(double E);
         void setN(double N);
 
         // sobrecarga de operador q pedia :v
-        bool operator==(Punto p);
+        bool operator==(const Punto& p) const;
 };
 
 #endif // PUNTO_H_INCLUDED

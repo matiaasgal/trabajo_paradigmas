@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include "Punto.h"
+#include "../Punto.h"
 
 using namespace std;
 
@@ -20,21 +20,23 @@ class Comuna {
         Comuna();
         Comuna(int cod, string nom, string prov);
         virtual ~Comuna(); // destructor
+        Comuna(const Comuna& c);// Constructor de copia
+        Comuna& operator=(const Comuna& c); // Sobrecarga del operador de asignaci¢n
 
         // Get
-        int getCodComuna();
-        string getNombre();
-        string getProvincia();
-        Punto* getLimitePoligono(); // retorna puntero
-        int getCantidadPuntos();    // coso para saber el tama¤o actual
+        int getCodComuna() const;
+        string getNombre() const;
+        string getProvincia() const;
+        Punto* getLimitePoligono() const; // retorna puntero
+        int getCantidadPuntos() const;    // coso para saber el tama¤o actual
 
         // Set
         void setCodComuna(int cod);
         void setNombre(string nom);
         void setProvincia(string prov);
 
-        void agregarPunto(Punto p);
-        bool operator==(Comuna c);
+        void agregarPunto(const Punto& p);
+        bool operator==(const Comuna& c) const;
 };
 
 #endif // COMUNA_H_INCLUDED
