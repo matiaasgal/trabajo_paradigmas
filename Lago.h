@@ -2,6 +2,8 @@
 #define LAGO_H
 
 #include "./SegmentoCosta.h"
+#include "./Comuna.h"
+#include "./FraccionComuna.h"
 #include <string>
 #include <vector>
 
@@ -11,9 +13,9 @@ class Lago {
     private:
         string nombre;
         string tipo;
+        vector<SegmentoCosta> perimetros;
         
     public:
-        vector<SegmentoCosta> perimetros;
         Lago();
         Lago(string nom, string tipo);
         ~Lago();
@@ -29,6 +31,9 @@ class Lago {
 
         // metodos extra
         void agregarSegmento(const SegmentoCosta& segmento);
+
+        // reparte el contorno del lago entre las comunas recibidas, tramo a tramo
+        vector<FraccionComuna> repartirPorComuna(const vector<Comuna>& comunas) const;
 
         // sobrecarga de operadores
         bool operator==(const Lago& otro) const;

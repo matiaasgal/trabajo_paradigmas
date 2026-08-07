@@ -29,7 +29,6 @@ double SegmentoCosta::calcularLongitudTotal3857() const{
     for (size_t i = 0; i < this->puntos.size() - 1; i++){
         metros = metros + this->puntos[i].calculateDist3857(this->puntos[i+1]);
     }
-    // double kilometros = metros / 1000.0;
     return metros;
 }
 
@@ -41,8 +40,7 @@ double SegmentoCosta::calcularLongitudTotal4326() const{
     for (size_t i = 0; i < this->puntos.size() - 1; i++){
         metros = metros + this->puntos[i].calculateDist4326(this->puntos[i+1]);
     }
-    double kilometros = metros / 1000.0;
-    return kilometros;
+    return metros;
 }
 
 SegmentoCosta SegmentoCosta::operator+(const SegmentoCosta& otro) const {

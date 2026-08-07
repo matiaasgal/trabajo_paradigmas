@@ -26,7 +26,7 @@ void Comuna::agregarSegmento(const SegmentoCosta& segmento) {
 }
 
 bool Comuna::contienePunto(const Punto& p) const {
-    // Algoritmo Ray Casting implementado de forma general para los polígonos de la comuna
+    // algoritmo Ray Casting implementado de forma general para los polígonos de la comuna
     bool dentroTotal = false;
     double px = p.getX();
     double py = p.getY();

@@ -60,6 +60,13 @@ vector<Lago> LectorLagos::extraerDatos(const string& rutaArchivo) {
         // a partir de aca empezamos a extraer los datos de polygon
         SegmentoCosta seg;        
         string coordenadas = linea.substr(inicio + 10, fin - (inicio + 10));
+
+        // esto por si el polygon tiene sub listas
+        size_t separadorAnillo = coordenadas.find("),(");
+        if (separadorAnillo != string::npos) {
+            coordenadas = coordenadas.substr(0, separadorAnillo);
+        }
+
         stringstream ss(coordenadas);
         string punto;
     
@@ -120,7 +127,9 @@ vector<Lago> LectorLagos::extraerDatos(const string& rutaArchivo) {
                     Lago nuevoLago(nombre, tipo);
                     nuevoLago.agregarSegmento(seg);
                     datos.push_back(nuevoLago);
-                    cout << "lago: " << nuevoLago.getNombre() << "(" << nuevoLago.getTipo() << ")" << endl;
+
+                    // esta linea la usamos para ir probando el codigo pero la dejamos ahi por si se quiere ver ams info
+                    // cout << "lago: " << nuevoLago.getNombre() << "(" << nuevoLago.getTipo() << ")" << endl;
                 }
             }
         }

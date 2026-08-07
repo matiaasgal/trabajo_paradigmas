@@ -69,10 +69,15 @@ double Punto::calculateDist3857(const Punto& P) const{
 }
 
 double Punto::calculateDist4326(const Punto& P) const{
-    double tempX, tempY;
-    tempX = P.getE() - getE();
-    tempY = P.getN() - getN();
-    return sqrt(tempX*tempX + tempY*tempY);
+    // E y N estan en grados. No se puede calcular la distancia euclidiana directa
+    // entre grados y esperar que el resultado sean metros: hay que convertir las
+    // diferencias de grados a metros reales sobre la superficie terrestre.
+    // Se usa la aproximacion equirectangular (valida para distancias cortas, como
+    // las que hay entre dos puntos consecutivos del contorno de un lago o comuna).
+    double latMedia = ((this->getN() + P.getN()) / 2.0) * (PI / 180.0);
+    double dE = (P.getE() - this->getE()) * (PI / 180.0) * R * cos(latMedia);
+    double dN = (P.getN() - this->getN()) * (PI / 180.0) * R;
+    return sqrt(dE*dE + dN*dN);
 }
 
 void Punto::print() const{

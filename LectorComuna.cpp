@@ -60,6 +60,13 @@ vector<Comuna> LectorComunas::extraerDatos(const string& rutaArchivo) {
         SegmentoCosta seg;    
         size_t posInicioCoords = linea.find_first_of("0123456789-", inicio);    
         string coordenadas = linea.substr(posInicioCoords, fin - posInicioCoords);
+
+        // por si el polygon tiene sub listas
+        size_t separadorAnillo = coordenadas.find("),(");
+        if (separadorAnillo != string::npos) {
+            coordenadas = coordenadas.substr(0, separadorAnillo);
+        }
+
         coordenadas.erase(remove(coordenadas.begin(), coordenadas.end(), '('), coordenadas.end());
         coordenadas.erase(remove(coordenadas.begin(), coordenadas.end(), ')'), coordenadas.end());
         stringstream ss(coordenadas);
@@ -136,7 +143,9 @@ vector<Comuna> LectorComunas::extraerDatos(const string& rutaArchivo) {
                     Comuna nuevaComuna(id, nombre);
                     nuevaComuna.agregarSegmento(seg);
                     datos.push_back(nuevaComuna);
-                    cout << "comuna: " << nuevaComuna.getNombre() << "(" << nuevaComuna.getCodComuna() << ")" << endl;
+
+                    // esta linea la usamos para ir probando el codigo pero la dejamos ahi por si se quiere ver ams info
+                    //cout << "comuna: " << nuevaComuna.getNombre() << "(" << nuevaComuna.getCodComuna() << ")" << endl;
                 }
 
             }
