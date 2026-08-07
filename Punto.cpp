@@ -1,26 +1,39 @@
+#include "./Punto.h"
 #include <iostream>
-#include "../Punto.h"
+#include <cmath>
 
 using namespace std;
 
-// constructor default(cuando se crea un punto sin darle coordenadas)
+// constructor sin parametros
 Punto::Punto() {
-    E = 0.0;
-    N = 0.0;
+    x = 0.0;
+    y = 0.0;
+
+    E = transformarX(x);
+    N = transformarY(y);
 }
 
-// constructor parametrizado (cuando se crea un punto dandole los datos)
-Punto::Punto(double E, double N) {
-    this->E = E;
-    this->N = N;
+// constructor con parametros
+Punto::Punto(double x, double y) {
+    this->x = x;
+    this->y = y;
+
+    E = transformarX(x);
+    N = transformarY(y);
 }
 
 // destructor
-Punto::~Punto() { // segun el gemini esta wea puede quedar vacia nomas pq no hay punteros
+Punto::~Punto() {}
 
+// getters
+double Punto::getX() const {
+    return x;
 }
 
-// metodos Get, que lee los datos protegidos
+double Punto::getY() const {
+    return y;
+}
+
 double Punto::getE() const {
     return E;
 }
@@ -29,19 +42,57 @@ double Punto::getN() const {
     return N;
 }
 
-// metodos Set, que modifica los datos protegidos
-void Punto::setE(double E) {
-    this->E = E;
+// metodos setters
+void Punto::setX(double x) {
+    this->x = x;
+    this->E = transformarX(x);
 }
 
-void Punto::setN(double N) {
-    this->N = N;
+void Punto::setY(double y) {
+    this->y = y;
+    this->N = transformarY(y);
 }
 
-bool Punto::operator==(const Punto& p) const {
-    if (this->E == p.getE() && this->N == p.getN()) {
+double Punto::transformarX(double a) {
+    return (180*a)/(PI*R);
+}
+
+double Punto::transformarY(double a) {
+    return ((180*PI)/(2))*atan(exp(a/R)-(PI/2));
+}
+
+double Punto::calculateDist3857(const Punto& P) const{
+    double tempX, tempY;
+    tempX = P.getX() - getX();
+    tempY = P.getY() - getY();
+    return sqrt(tempX*tempX + tempY*tempY);
+}
+
+double Punto::calculateDist4326(const Punto& P) const{
+    double tempX, tempY;
+    tempX = P.getE() - getE();
+    tempY = P.getN() - getN();
+    return sqrt(tempX*tempX + tempY*tempY);
+}
+
+void Punto::print() const{
+    cout << "Las coordenadas originales del punto son: (" << getX() << ","
+        << getY() << ") y las coordenadas transformadas son: (" << getE() << ","
+        << getN() << ")" << endl;
+}
+
+bool Punto::operator==(const Punto& P) const {
+    if (this->x == P.getX() && this->y == P.getY()) {
         return true;
-    } else {
-        return false;
     }
+    return false;
+}
+
+Punto& Punto::operator=(const Punto& P) {
+    x = P.getX();
+    y = P.getY();
+    E = P.getE();
+    N = P.getN();
+
+    return *this;
 }

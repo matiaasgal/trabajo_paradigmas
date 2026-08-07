@@ -1,42 +1,41 @@
-#ifndef COMUNA_H_INCLUDED
-#define COMUNA_H_INCLUDED
+#ifndef COMUNA_H
+#define COMUNA_H
 
-#include <iostream>
+#include "./SegmentoCosta.h"
 #include <string>
-#include "../Punto.h"
+#include <vector>
 
 using namespace std;
 
 class Comuna {
     private:
-        int codComuna;
         string nombre;
-        string provincia;
-        Punto* limitePoligono; // apunta al inicio del arreglo
-        int cantidadPuntos;    // contador de cu†ntos puntos hemos guardado
-        int capacidadMaxima;   // contador de cu†nto espacio total hemos pedido a la memoria
+        int cod_comuna;
+        vector<SegmentoCosta> perimetros;
 
     public:
+        // constructores y destructor
         Comuna();
-        Comuna(int cod, string nom, string prov);
-        virtual ~Comuna(); // destructor
-        Comuna(const Comuna& c);// Constructor de copia
-        Comuna& operator=(const Comuna& c); // Sobrecarga del operador de asignaci¢n
-
-        // Get
+        Comuna(int cod, string nom);
+        ~Comuna();
+        
+        // getters
         int getCodComuna() const;
         string getNombre() const;
-        string getProvincia() const;
-        Punto* getLimitePoligono() const; // retorna puntero
-        int getCantidadPuntos() const;    // coso para saber el tama§o actual
 
-        // Set
+        // setters
         void setCodComuna(int cod);
         void setNombre(string nom);
-        void setProvincia(string prov);
+        
+        // metodos extra
+        void agregarSegmento(const SegmentoCosta& segmento);
+        
+        // metodo para saber si un punto est√° dentro de la comuna (Ray Casting)
+        bool contienePunto(const Punto& p) const;
 
-        void agregarPunto(const Punto& p);
-        bool operator==(const Comuna& c) const;
+        // sobrecarga de operadores
+        bool operator==(const Comuna& otra) const;
+        bool operator<(const Comuna& otra) const;
 };
 
-#endif // COMUNA_H_INCLUDED
+#endif

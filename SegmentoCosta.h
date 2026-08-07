@@ -1,29 +1,29 @@
-#ifndef SEGMENTOCOSTA_H_INCLUDED
-#define SEGMENTOCOSTA_H_INCLUDED
+#ifndef SEGMENTOCOSTA_H
+#define SEGMENTOCOSTA_H
 
-#include <iostream>
-#include "../Punto.h"
+#include "./Punto.h"
+#include <vector>
+
+using namespace std;
 
 class SegmentoCosta {
     private:
-        Punto inicio;
-        Punto fin;
-
+        vector<Punto> puntos;
     public:
-        // constructores
         SegmentoCosta();
-        SegmentoCosta(Punto inicio, Punto fin);
-        virtual ~SegmentoCosta(); // destructor
+        ~SegmentoCosta();
 
-        // Get
-        Punto getInicio() const;
-        Punto getFin() const;
+        // getters
+        const vector<Punto>& getPuntos() const;
+        int getCantidadPuntos();
 
-        // Set
-        void setInicio(Punto inicio);
-        void setFin(Punto fin);
+        // metodos extra
+        void agregarPunto(const Punto& P);
+        double calcularLongitudTotal3857() const;
+        double calcularLongitudTotal4326() const;
 
-        SegmentoCosta& operator=(const SegmentoCosta& s);
+        // sobrecarga operadores
+        SegmentoCosta operator+(const SegmentoCosta& seg) const;
 };
 
-#endif // SEGMENTOCOSTA_H_INCLUDED
+#endif

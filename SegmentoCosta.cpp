@@ -1,38 +1,54 @@
 #include <iostream>
+#include <vector>
 #include "SegmentoCosta.h"
 
-// constructor default
-SegmentoCosta::SegmentoCosta() {
-    // iniciamos con dos puntos en la coordenada 0,0
-    Punto pVacio(0.0, 0.0);
-    inicio = pVacio;
-    fin = pVacio;
+SegmentoCosta::SegmentoCosta(){}
+
+SegmentoCosta::~SegmentoCosta(){
+    puntos.clear();
 }
 
-// constructor parametrizado
-SegmentoCosta::SegmentoCosta(Punto inicio, Punto fin) {
-    this->inicio = inicio;
-    this->fin = fin;
+void SegmentoCosta::agregarPunto(const Punto& P){
+    puntos.push_back(P);
 }
 
-SegmentoCosta::~SegmentoCosta() {
-
+// getters
+const vector<Punto>& SegmentoCosta::getPuntos() const {
+    return puntos;
 }
 
-Punto SegmentoCosta::getInicio() const { return inicio; }
-Punto SegmentoCosta::getFin() const { return fin; }
+int SegmentoCosta::getCantidadPuntos(){
+    return (puntos.size());
+}
 
-void SegmentoCosta::setInicio(Punto inicio) { this->inicio = inicio; }
-void SegmentoCosta::setFin(Punto fin) { this->fin = fin; }
-
-SegmentoCosta& SegmentoCosta::operator=(const SegmentoCosta& s) {
-    // Evitar auto-asignaci¢n
-    if (this == &s) {
-        return *this;
+double SegmentoCosta::calcularLongitudTotal3857() const{
+    if (this->puntos.size() < 2){
+        return 0;
     }
+    double metros = 0;
+    for (size_t i = 0; i < this->puntos.size() - 1; i++){
+        metros = metros + this->puntos[i].calculateDist3857(this->puntos[i+1]);
+    }
+    // double kilometros = metros / 1000.0;
+    return metros;
+}
 
-    this->inicio = s.getInicio();
-    this->fin = s.getFin();
+double SegmentoCosta::calcularLongitudTotal4326() const{
+    if (this->puntos.size() < 2){
+        return 0;
+    }
+    double metros = 0;
+    for (size_t i = 0; i < this->puntos.size() - 1; i++){
+        metros = metros + this->puntos[i].calculateDist4326(this->puntos[i+1]);
+    }
+    double kilometros = metros / 1000.0;
+    return kilometros;
+}
 
-    return *this;
+SegmentoCosta SegmentoCosta::operator+(const SegmentoCosta& otro) const {
+    SegmentoCosta resultado = *this;
+    for (const auto& p : otro.puntos) {
+        resultado.agregarPunto(p);
+    }
+    return resultado;
 }
